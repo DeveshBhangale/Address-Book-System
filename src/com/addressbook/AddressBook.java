@@ -4,43 +4,63 @@ import java.util.*;
 
 
 public class AddressBook {
-	public static ArrayList<ArrayList<String>> l1 = new ArrayList<ArrayList<String>>();
-	
-	// Use Case -1 
-	public static String createContact(String firstName,String lastName,String address,
+	public static String [][]arr = new String[10][8];
+	public static int cnt = 0;
+	// Use Case - 1 
+	public static void createContact(String firstName,String lastName,String address,
 			String city,String state,String zip,String phoneNo,String email) {
-		if(l1.add(new ArrayList<String>(Arrays.asList(firstName,lastName,address,city,state,zip,phoneNo,email)))) {
-			return "Contact Created";
-			}
-		else
-			return "Failed";
+		
+		arr[cnt][0] = firstName;
+		arr[cnt][1] = lastName;
+		arr[cnt][2] = address;
+		arr[cnt][3] = city;
+		arr[cnt][4] = state;
+		arr[cnt][5] = zip;
+		arr[cnt][6] = phoneNo;
+		arr[cnt][7] = email;
+		cnt++;
+		System.out.println("Contact Successfully created");
 		}
 	
 	public static void showContacts() {
-		if(l1.isEmpty())
+		if(arr.length == 0)
 			System.out.println("No Contacts to display");
-		else {
-			for(int i=0;i<l1.size();i++) {
-				System.out.println("1. "
-						+ "First Name: "+l1.get(i).get(0)
-						+"\nLast Name: "+ l1.get(i).get(1)
-						+"\nAddress: \n"+ l1.get(i).get(2)
-						+"\nCity: "+l1.get(i).get(3)
-						+"\nState: "+l1.get(i).get(4)
-						+"\nZip Code: "+l1.get(i).get(5)
-						+"\nPhone No: "+l1.get(i).get(6)
-						+"Email: "+l1.get(i).get(7));
+		else {	
+			for(int i=0;i<arr.length;i++) {
+				if((arr[i][0])!=(null)) {
+				System.out.println((i+1)
+						+ ".\nFirst Name: "+arr[i][0]
+						+"\nLast Name: "+ arr[i][1]
+						+"\nAddress:"+ arr[i][2]
+						+"\nCity: "+ arr[i][3]
+						+"\nState: "+arr[i][4] 
+						+"\nZip Code: "+arr[i][5]
+						+"\nPhone No: "+arr[i][6]
+						+"\nEmail: "+arr[i][7]+"\n");
+					
 			}
+			}
+	}}
+	
+	
+	public static String editContact(String Name, int b,String change ) {
+		for(int i =0;i<arr.length;i++) {
+			if(arr[i][0].equals(Name)) {
+				arr[i][b] = change;
+				return("Contact edited");
+ 			}
 		}
+		return "Contact Failed to edit";
+	
 	}
-
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book\n ");
 		int a;
 		Scanner sc = new Scanner(System.in);
 		while(true) {
-			System.out.println("1. Create a Contact\n"
-					+ "2. To show all Contacts");
+			System.out.println("1. Create or Add a Contact\n"
+					+ "2. To show all Contacts\n"
+					+ "3. Edit a Contact\n");
 			do {
 				while(!sc.hasNextInt()) {
 					System.out.println("Entered Input is not a number");
@@ -51,29 +71,53 @@ public class AddressBook {
 			}while(true);
 			switch(a) {
 			
-				case 1: System.out.println("FirstName: ");
-						String firstName = sc.nextLine();
+				case 1: 
+						String firstName,lastName,address,city,state,zip,phoneNo,email;
+						
+						System.out.println("FirstName: ");
+						String dummy = sc.nextLine(); // To avoid moving to the next line
+						firstName = sc.nextLine();
 						System.out.println("LastName: ");
-						String lastName = sc.nextLine();
+						lastName = sc.nextLine();
 						System.out.println("Address (Type in one line): \n");
-						String address = sc.nextLine();
+						address = sc.nextLine();
 						System.out.println("City: ");
-						String city = sc.nextLine();
+						city = sc.nextLine();
 						System.out.println("State: ");
-						String state = sc.nextLine();
+						state = sc.nextLine();
 						System.out.println("zip: ");
-						String zip = sc.nextLine();
+						zip = sc.nextLine();
 						System.out.println("Phone No. ");
-						String phoneNo = sc.nextLine();
+						phoneNo = sc.nextLine();
 						System.out.println("Email: ");
-						String email = sc.nextLine();
-
+						email = sc.nextLine();
 						createContact(firstName,lastName,address,city,state,zip,phoneNo,email); 
 						break;
 				
-				case 2: System.out.println(l1); 
-					//showContacts();
-				default: return;
+				case 2:	showContacts();
+						break;
+				
+				case 3: System.out.println("Enter Name of the contact\n ");
+						String Name = sc.next();
+						System.out.println("What you want to edit \n"
+								+ "1. First Name\n"
+								+ "2. Last Name\n"
+								+ "3. Address\n"
+								+ "4. City\n"
+								+ "5. State\n"
+								+ "6. Zip Code\n"
+								+ "7. Phone No.\n"
+								+ "8. Email\n ");
+						int b = sc.nextInt() - 1;
+						System.out.println("Enter the new one:");
+						String dummy1 = sc.nextLine(); // To avoid moving to the next line
+						String change = sc.nextLine();
+						System.out.println(editContact(Name,b,change));
+						break;
+																	
+				
+				default:System.out.println("Program Exited"); 
+						return;
 					
 			}
 		}
