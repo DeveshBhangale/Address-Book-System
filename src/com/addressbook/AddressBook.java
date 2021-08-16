@@ -6,7 +6,7 @@ import java.util.*;
 public class AddressBook {
 	public static String [][]arr = new String[10][8];
 	public static int cnt = 0;
-	// Use Case - 1 
+	// Use Case - 1 &2
 	public static void createContact(String firstName,String lastName,String address,
 			String city,String state,String zip,String phoneNo,String email) {
 		
@@ -42,7 +42,7 @@ public class AddressBook {
 			}
 	}}
 	
-	
+	// Use Case - 3
 	public static String editContact(String Name, int b,String change ) {
 		for(int i =0;i<arr.length;i++) {
 			if(arr[i][0].equals(Name)) {
@@ -53,6 +53,24 @@ public class AddressBook {
 		return "Contact Failed to edit";
 	
 	}
+	
+	// Use Case - 4
+	public static String deleteContact(String Name) {
+		for(int i =0;i<arr.length;i++) {
+			if(arr[i][0].equals(Name)) {
+				arr[i][0] = null;
+				arr[i][1] = null;
+				arr[i][2] = null;
+				arr[i][3] = null;
+				arr[i][4] = null;
+				arr[i][5] = null;
+				arr[i][6] = null;
+				arr[i][7] = null;
+				return("Contact Deleted");
+ 			}
+		}
+		return "Contact Failed to Delete";
+	}
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book\n ");
 		int a;
@@ -60,7 +78,8 @@ public class AddressBook {
 		while(true) {
 			System.out.println("1. Create or Add a Contact\n"
 					+ "2. To show all Contacts\n"
-					+ "3. Edit a Contact\n");
+					+ "3. Edit a Contact\n"
+					+ "4. Delete a Contact\n");
 			do {
 				while(!sc.hasNextInt()) {
 					System.out.println("Entered Input is not a number");
@@ -114,7 +133,11 @@ public class AddressBook {
 						String change = sc.nextLine();
 						System.out.println(editContact(Name,b,change));
 						break;
-																	
+				
+				case 4:System.out.println("Enter Name of the contact\n ");
+					   Name = sc.next();
+					   System.out.println(deleteContact(Name));
+					   break;						
 				
 				default:System.out.println("Program Exited"); 
 						return;
