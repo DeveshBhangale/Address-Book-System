@@ -33,6 +33,10 @@ public class AddressBookMain {
 						// To avoid moving to the next line
 						dummy = sc.nextLine();
 						firstName = sc.nextLine();
+						if(addressBook.checkDuplicacy(firstName)) {
+							System.out.println("Duplicate Contact Found");
+							selectAddressBook(addressBook);
+						}
 						System.out.println("LastName: ");
 						lastName = sc.nextLine();
 						System.out.println("Address (Type in one line): \n");
