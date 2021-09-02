@@ -85,5 +85,27 @@ public class AddressBook {
 		return false;
 	}
 	
+	public String searchByCity(String Name) {
+		String str = " ";
+		for(int i =0;i<arr.length;i++) {
+			if(arr[i][3] != null) {
+				if(arr[i][3].equals(Name))
+					str = str + arr[i][3]+" ";
+				}
+			}
+		return str;
+	}
+	
+	public String searchByState(String Name) {
+		String str = " ";
+		for(int i =0;i<arr.length;i++) {
+			if(arr[i][4] != null) {
+				if(arr[i][4].equals(Name))
+					str = str + arr[i][4]+ " ";
+				}
+			}
+		return str;
+	}
+	
 
 }

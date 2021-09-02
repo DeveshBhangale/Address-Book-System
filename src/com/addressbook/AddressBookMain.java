@@ -6,8 +6,8 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 public class AddressBookMain {
-	static Scanner sc = new Scanner(System.in);
-	
+	public static Scanner sc = new Scanner(System.in);
+	public static Dictionary<String,AddressBook> dict = new Hashtable<String,AddressBook>();
 	
 	public static void selectAddressBook(AddressBook addressBook) {
 		
@@ -18,7 +18,7 @@ public class AddressBookMain {
 						+ "2. To show all Contacts\n"
 						+ "3. Edit a Contact\n"
 						+ "4. Delete a Contact\n"
-						+ "5. Create a new Address Book\n");
+						+ "5. search contact by city or state in multiple address book\n");
 				while(!sc.hasNextInt()) {
 					System.out.println("Entered Input is not a number");
 					sc.next();
@@ -42,9 +42,9 @@ public class AddressBookMain {
 						System.out.println("Address (Type in one line): \n");
 						address = sc.nextLine();
 						System.out.println("City: ");
-						city = sc.nextLine();
+						city = sc.nextLine().toLowerCase();
 						System.out.println("State: ");
-						state = sc.nextLine();
+						state = sc.nextLine().toLowerCase();
 						System.out.println("zip: ");
 						zip = sc.nextLine();
 						System.out.println("Phone No. ");
@@ -71,15 +71,19 @@ public class AddressBookMain {
 						int b = sc.nextInt() - 1;
 						System.out.println("Enter the new one:");
 						dummy = sc.nextLine();
-						String change = sc.nextLine();
+						String change = sc.nextLine().toLowerCase();
 						System.out.println(addressBook.editContact(Name,b,change));
 						break;
 				
 				case 4:System.out.println("Enter Name of the contact\n ");
 					   Name = sc.next();
 					   System.out.println(addressBook.deleteContact(Name));
-					   break;	
+					   break;
 					   
+				case 5: System.out.println("Enter 1 to search by city or 2 by state");
+						int search = sc.nextInt();
+						if(search == 1) searchByCity();
+						else if(search == 2) searchByState();				   
 						
 				
 				default:System.out.println("Current Address Book exited"); 
@@ -90,9 +94,35 @@ public class AddressBookMain {
 	}
 
 
+	private static void searchByCity() {
+		System.out.println("Enter the city name");
+		String cityName = sc.next();
+		StringBuffer result = new StringBuffer("Person Names of "+cityName);
+		Enumeration enu = dict.keys();
+        while (enu.hasMoreElements()) {
+            AddressBook tempAddressBook = dict.get(enu.nextElement());
+            result.append(tempAddressBook.searchByCity(cityName));
+        }
+        System.out.println(result);
+	}
+
+
+	private static void searchByState() {
+		System.out.println("Enter the state name");
+		String stateName = sc.next();
+		StringBuffer result = new StringBuffer("Person Names of "+stateName);
+		Enumeration enu = dict.keys();
+        while (enu.hasMoreElements()) {
+            AddressBook tempAddressBook = dict.get(enu.nextElement());
+            result.append(tempAddressBook.searchByState(stateName));
+        }
+        System.out.println(result);
+	}
+
+
 	public static void main(String[] args) {
 		AddressBook addressBook = new AddressBook();
-		Dictionary<String,AddressBook> dict = new Hashtable<String,AddressBook>();
+		
 		String aBName = "first";
 		Scanner sc = new Scanner(System.in);
 		dict.put(aBName, addressBook);
