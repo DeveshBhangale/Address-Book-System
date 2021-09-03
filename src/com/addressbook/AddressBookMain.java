@@ -6,6 +6,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Scanner;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 public class AddressBookMain {
 	public static Scanner sc = new Scanner(System.in);
 	public static Dictionary<String,AddressBook> dict = new Hashtable<String,AddressBook>();
@@ -21,7 +23,8 @@ public class AddressBookMain {
 						+ "2. To show all Contacts\n"
 						+ "3. Edit a Contact\n"
 						+ "4. Delete a Contact\n"
-						+ "5. search contact by city or state in multiple address book\n");
+						+ "5. search contact by city or state in multiple address book\n"
+						+ "6. get count of persons by city or state in multiple address book\n");
 				while(!sc.hasNextInt()) {
 					System.out.println("Entered Input is not a number");
 					sc.next();
@@ -85,9 +88,34 @@ public class AddressBookMain {
 					   
 				case 5: System.out.println("Enter 1 to search by city or 2 by state");
 						int search = sc.nextInt();
-						if(search == 1) searchByCity();
-						else if(search == 2) searchByState();				   
+						if(search == 1) {
+							System.out.println("Enter the city name");
+							String cityName = sc.next();
+							searchByCity(cityName);
+							System.out.println(personByCity.get(cityName));
+							}
+						else if(search == 2) { 
+							System.out.println("Enter the state name");
+							String stateName = sc.next();
+							searchByState(stateName);
+							System.out.println(personByState.get(stateName));
+							}	
+						break;						
 						
+				case 6: System.out.println("Enter 1 to get count of persons by city or 2 by state");
+						search = sc.nextInt();
+						if(search == 1) {
+							System.out.println("Enter the city name");
+							String cityName = sc.next();
+							System.out.println(cityOrStatePersonsCount(cityName,1));
+						}
+						else {
+							System.out.println("Enter the state name");
+							String stateName = sc.next();
+							
+							System.out.println(cityOrStatePersonsCount(stateName,2));
+						}
+						break;
 				
 				default:System.out.println("Current Address Book exited"); 
 						return;
@@ -95,11 +123,28 @@ public class AddressBookMain {
 		}
 		}
 	}
+	
+	public static int cityOrStatePersonsCount(String Name,int choice) {
+		ArrayList<ArrayList<String>> personCount;
+		if(choice == 1) {
+			searchByCity(Name);
+			personCount = personByCity.get(Name);
+		}else{
+			searchByState(Name);
+			personCount = personByState.get(Name);
+		}
+		int count = 0;
+		for(int i=0;i<personCount.size();i++) {
+			ArrayList<String> temp = personCount.get(i);
+			for(int j =0;j<temp.size();j++) {
+				count+=1;
+			}
+		}
+		return count;
+		
+	}
 
-
-	private static void searchByCity() {
-		System.out.println("Enter the city name");
-		String cityName = sc.next();
+	private static void searchByCity(String cityName) {
 		ArrayList<ArrayList<String>> cityNames = new ArrayList<ArrayList<String>>();
 		Enumeration<String> enu = dict.keys();
         while (enu.hasMoreElements()) {
@@ -107,13 +152,11 @@ public class AddressBookMain {
             cityNames.add(tempAddressBook.searchByCity(cityName));
         }
         personByCity.put(cityName, cityNames);
-        System.out.println(personByCity.get(cityName));
+        
 	}
 
 
-	private static void searchByState() {
-		System.out.println("Enter the state name");
-		String stateName = sc.next();
+	private static void searchByState(String stateName) {
 		ArrayList<ArrayList<String>> stateNames = new ArrayList<ArrayList<String>>();
 		Enumeration<String> enu = dict.keys();
         while (enu.hasMoreElements()) {
@@ -121,7 +164,7 @@ public class AddressBookMain {
             stateNames.add(tempAddressBook.searchByCity(stateName));
         }
         personByState.put(stateName, stateNames);
-        System.out.println(personByState.get(stateName));
+        
 	}
 
 
