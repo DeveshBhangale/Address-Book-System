@@ -85,26 +85,26 @@ public class AddressBook {
 		return false;
 	}
 	
-	public String searchByCity(String Name) {
-		String str = " ";
+	public ArrayList<String> searchByCity(String Name) {
+		ArrayList<String> cityNames = new ArrayList<String>();
 		for(int i =0;i<arr.length;i++) {
 			if(arr[i][3] != null) {
 				if(arr[i][3].equals(Name))
-					str = str + arr[i][3]+" ";
+					cityNames.add(arr[i][0]);
 				}
 			}
-		return str;
+		return cityNames;
 	}
 	
-	public String searchByState(String Name) {
-		String str = " ";
+	public ArrayList<String> searchByState(String Name) {
+		ArrayList<String> stateNames = new ArrayList<String>();
 		for(int i =0;i<arr.length;i++) {
 			if(arr[i][4] != null) {
 				if(arr[i][4].equals(Name))
-					str = str + arr[i][4]+ " ";
+					stateNames.add(arr[i][0]);
 				}
 			}
-		return str;
+		return stateNames;
 	}
 	
 

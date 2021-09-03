@@ -1,5 +1,6 @@
 package com.addressbook;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -8,6 +9,8 @@ import java.util.Scanner;
 public class AddressBookMain {
 	public static Scanner sc = new Scanner(System.in);
 	public static Dictionary<String,AddressBook> dict = new Hashtable<String,AddressBook>();
+	public static Dictionary<String,ArrayList<ArrayList<String>>> personByCity = new Hashtable<String,ArrayList<ArrayList<String>>>();
+	public static Dictionary<String,ArrayList<ArrayList<String>>> personByState = new Hashtable<String,ArrayList<ArrayList<String>>>();
 	
 	public static void selectAddressBook(AddressBook addressBook) {
 		
@@ -97,26 +100,28 @@ public class AddressBookMain {
 	private static void searchByCity() {
 		System.out.println("Enter the city name");
 		String cityName = sc.next();
-		StringBuffer result = new StringBuffer("Person Names of "+cityName);
-		Enumeration enu = dict.keys();
+		ArrayList<ArrayList<String>> cityNames = new ArrayList<ArrayList<String>>();
+		Enumeration<String> enu = dict.keys();
         while (enu.hasMoreElements()) {
             AddressBook tempAddressBook = dict.get(enu.nextElement());
-            result.append(tempAddressBook.searchByCity(cityName));
+            cityNames.add(tempAddressBook.searchByCity(cityName));
         }
-        System.out.println(result);
+        personByCity.put(cityName, cityNames);
+        System.out.println(personByCity.get(cityName));
 	}
 
 
 	private static void searchByState() {
 		System.out.println("Enter the state name");
 		String stateName = sc.next();
-		StringBuffer result = new StringBuffer("Person Names of "+stateName);
-		Enumeration enu = dict.keys();
+		ArrayList<ArrayList<String>> stateNames = new ArrayList<ArrayList<String>>();
+		Enumeration<String> enu = dict.keys();
         while (enu.hasMoreElements()) {
             AddressBook tempAddressBook = dict.get(enu.nextElement());
-            result.append(tempAddressBook.searchByState(stateName));
+            stateNames.add(tempAddressBook.searchByCity(stateName));
         }
-        System.out.println(result);
+        personByState.put(stateName, stateNames);
+        System.out.println(personByState.get(stateName));
 	}
 
 
@@ -129,20 +134,18 @@ public class AddressBookMain {
 		
 		
 		System.out.println("Welcome to Address Book\n ");
-		int a;
 		
 		while(true) {
 			System.out.println("Do you want to create new address book (Y / N)\n or enter x to exit");
 			String input = sc.next();
 			if(input.toUpperCase().equals("Y")) {
-				a = 5;
 				System.out.println("Enter your new Address Book Name");
 				input = sc.next();
 				dict.put(input,  new AddressBook());
 				System.out.println("New Address Book Created");
 			}
 			else if(input.toUpperCase().equals("N")) {
-				Enumeration enu = dict.keys();
+				Enumeration<String> enu = dict.keys();
 		        System.out.println("The available address books are:");
 		        while (enu.hasMoreElements()) {
 		            System.out.print(enu.nextElement() + " ");
