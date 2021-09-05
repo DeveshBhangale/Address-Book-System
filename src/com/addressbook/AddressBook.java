@@ -6,7 +6,6 @@ import java.util.stream.*;
 public class AddressBook {
 	public String [][]arr = new String[10][8];
 	public int cnt = 0;
-	
 
 	// Use Case - 1 &2
 	public void createContact(String firstName,String lastName,String address,
@@ -76,31 +75,24 @@ public class AddressBook {
 	
 	public boolean checkDuplicacy(String Name) {
 		List<String> list = new ArrayList<String>();
-	    for (String[] array : arr) {
-	        list.addAll(Arrays.asList(array[0]));
-	    }
+		Arrays.asList(arr).forEach(n -> { list.add(n[0]);});
 	    if(list.stream().anyMatch(n -> n!=null && n.equals(Name))) return true;
 	    return false;
 	}
 	
 	public ArrayList<String> searchByCity(String Name) {
 		ArrayList<String> cityNames = new ArrayList<String>();
-		for (String[] array : arr) {
-			if(Arrays.asList(array).stream().anyMatch(n -> n!=null && n.equals(Name))) {
-				cityNames.add(array[0]);
-			}
-				
-	    }
+		Arrays.asList(arr).forEach(n1 -> {
+			if(n1[3]!=null && n1[3].equals(Name)) cityNames.add(n1[0]);
+		});
 		return cityNames;
 	}
 	
 	public ArrayList<String> searchByState(String Name) {
 		ArrayList<String> stateNames = new ArrayList<String>();
-		for (String[] array : arr) {
-			if(Arrays.asList(array).stream().anyMatch(n -> n!=null && n.equals(Name))) {
-				stateNames.add(array[0]);
-			}
-	    }
+		Arrays.asList(arr).forEach(n1 -> {
+			if(n1[4]!=null && n1[4].equals(Name)) stateNames.add(n1[0]);
+		});
 		return stateNames;
 	}
 

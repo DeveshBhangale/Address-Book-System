@@ -10,7 +10,7 @@ public class AddressBookMain {
 	public static Dictionary<String,AddressBook> dict = new Hashtable<String,AddressBook>();
 	public static Dictionary<String,ArrayList<ArrayList<String>>> personByCity = new Hashtable<String,ArrayList<ArrayList<String>>>();
 	public static Dictionary<String,ArrayList<ArrayList<String>>> personByState = new Hashtable<String,ArrayList<ArrayList<String>>>();
-	
+	private static int count = 0;
 	public static void selectAddressBook(AddressBook addressBook) {
 		
 		int a;
@@ -121,9 +121,9 @@ public class AddressBookMain {
 		}
 	}
 	
-	public static Long cityOrStatePersonsCount(String Name,int choice) {
+	public static int cityOrStatePersonsCount(String Name,int choice) {
 		ArrayList<ArrayList<String>> personCount;
-		Long count = (long) 0;
+		count = 0;
 		if(choice == 1) {
 			searchByCity(Name);
 			personCount = personByCity.get(Name);
@@ -131,10 +131,7 @@ public class AddressBookMain {
 			searchByState(Name);
 			personCount = personByState.get(Name);
 		}
-		System.out.println(personCount);
-		for(ArrayList<String> arr: personCount) {
-			count += arr.stream().count();
-		}
+		personCount.stream().forEach(y -> count++);
 		return count;
 		
 	}
