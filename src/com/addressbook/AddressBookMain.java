@@ -1,12 +1,9 @@
 package com.addressbook;
 
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Scanner;
+import java.util.*;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
+
+
 
 public class AddressBookMain {
 	public static Scanner sc = new Scanner(System.in);

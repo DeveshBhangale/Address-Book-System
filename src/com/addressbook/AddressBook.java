@@ -1,6 +1,6 @@
 package com.addressbook;
 import java.util.*;
-
+import java.util.stream.*;
 
 
 public class AddressBook {
@@ -75,14 +75,19 @@ public class AddressBook {
 	}
 	
 	public boolean checkDuplicacy(String Name) {
-
-		for(int i =0;i<arr.length;i++) {
-			if(arr[i][0] != null) {
-				if(arr[i][0].equals(Name))
-					return true;
-				}
-			}
-		return false;
+//		for(int i =0;i<arr.length;i++) {
+//			if(arr[i][0] != null) {
+//				if(arr[i][0].equals(Name))
+//					return true;
+//				}
+//			}
+		List<String> list = new ArrayList<String>();
+	    for (String[] array : arr) {
+	        list.addAll(Arrays.asList(array));
+	    }
+	    if(list.stream().anyMatch(n -> n!=null && n.equals(Name))) return true;
+	    
+	    return false;
 	}
 	
 	public ArrayList<String> searchByCity(String Name) {
@@ -106,6 +111,7 @@ public class AddressBook {
 			}
 		return stateNames;
 	}
+
 	
 
 }
