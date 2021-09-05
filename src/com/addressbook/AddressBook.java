@@ -83,7 +83,7 @@ public class AddressBook {
 //			}
 		List<String> list = new ArrayList<String>();
 	    for (String[] array : arr) {
-	        list.addAll(Arrays.asList(array));
+	        list.addAll(Arrays.asList(array[0]));
 	    }
 	    if(list.stream().anyMatch(n -> n!=null && n.equals(Name))) return true;
 	    
@@ -92,23 +92,19 @@ public class AddressBook {
 	
 	public ArrayList<String> searchByCity(String Name) {
 		ArrayList<String> cityNames = new ArrayList<String>();
-		for(int i =0;i<arr.length;i++) {
-			if(arr[i][3] != null) {
-				if(arr[i][3].equals(Name))
-					cityNames.add(arr[i][0]);
-				}
-			}
+		for (String[] array : arr) {
+			cityNames.addAll(Arrays.asList(array[3]));
+	    }
+		cityNames = (ArrayList<String>) cityNames.stream().filter(n -> n!=null && n.equals(Name)).collect(Collectors.toList());
 		return cityNames;
 	}
 	
 	public ArrayList<String> searchByState(String Name) {
 		ArrayList<String> stateNames = new ArrayList<String>();
-		for(int i =0;i<arr.length;i++) {
-			if(arr[i][4] != null) {
-				if(arr[i][4].equals(Name))
-					stateNames.add(arr[i][0]);
-				}
-			}
+		for (String[] array : arr) {
+			stateNames.addAll(Arrays.asList(array[4]));
+	    }
+		stateNames = (ArrayList<String>) stateNames.stream().filter(n -> n!=null && n.equals(Name)).collect(Collectors.toList());
 		return stateNames;
 	}
 
