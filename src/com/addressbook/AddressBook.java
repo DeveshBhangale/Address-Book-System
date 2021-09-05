@@ -95,7 +95,32 @@ public class AddressBook {
 		});
 		return stateNames;
 	}
-
+	
+	public void sortArray(int index){
+		 Arrays.sort(arr, new Comparator<String[]>() {
+	            @Override
+	            public int compare(final String[] entry1, final String[] entry2) {
+	            	if(entry1[index]!=null && entry2[index]!=null) {
+		                final String time1 = entry1[index];
+		                final String time2 = entry2[index];
+		                return time1.compareTo(time2);
+	                }
+	            	return 0;
+	            	}});
+		 print();
+		}
+	
+	public void print() {
+		for(String[] i: arr) {
+			if(i[0]!=null)
+				System.out.println("FirstName="+i[0]+" LastName="+i[1]+" Address="+i[2]
+						+" City="+i[3]+" State="+i[4]+" ZipCode="+i[5]+" PhoneNo="+i[6]
+						+" Email="+i[7]);
+		}
+	}
+	
+	}
 	
 
-}
+	
+	

@@ -21,7 +21,8 @@ public class AddressBookMain {
 						+ "3. Edit a Contact\n"
 						+ "4. Delete a Contact\n"
 						+ "5. search contact by city or state in multiple address book\n"
-						+ "6. get count of persons by city or state in multiple address book\n");
+						+ "6. get count of persons by city or state in multiple address book\n"
+						+ "7. sort the address book by name");
 				while(!sc.hasNextInt()) {
 					System.out.println("Entered Input is not a number");
 					sc.next();
@@ -112,6 +113,13 @@ public class AddressBookMain {
 							
 							System.out.println(cityOrStatePersonsCount(stateName,2));
 						}
+						break;
+				
+				case 7: System.out.println("1. To sort array by Name\n2. To sort array by City\n3. To sort array by State");
+						int c = sc.nextInt();
+						if(c == 1)addressBook.sortArray(0);
+						else if(c == 2)addressBook.sortArray(3);
+						else addressBook.sortArray(4);
 						break;
 				
 				default:System.out.println("Current Address Book exited"); 
