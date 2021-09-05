@@ -121,8 +121,9 @@ public class AddressBookMain {
 		}
 	}
 	
-	public static int cityOrStatePersonsCount(String Name,int choice) {
+	public static Long cityOrStatePersonsCount(String Name,int choice) {
 		ArrayList<ArrayList<String>> personCount;
+		Long count = (long) 0;
 		if(choice == 1) {
 			searchByCity(Name);
 			personCount = personByCity.get(Name);
@@ -130,12 +131,9 @@ public class AddressBookMain {
 			searchByState(Name);
 			personCount = personByState.get(Name);
 		}
-		int count = 0;
-		for(int i=0;i<personCount.size();i++) {
-			ArrayList<String> temp = personCount.get(i);
-			for(int j =0;j<temp.size();j++) {
-				count+=1;
-			}
+		System.out.println(personCount);
+		for(ArrayList<String> arr: personCount) {
+			count += arr.stream().count();
 		}
 		return count;
 		
