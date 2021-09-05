@@ -75,36 +75,32 @@ public class AddressBook {
 	}
 	
 	public boolean checkDuplicacy(String Name) {
-//		for(int i =0;i<arr.length;i++) {
-//			if(arr[i][0] != null) {
-//				if(arr[i][0].equals(Name))
-//					return true;
-//				}
-//			}
 		List<String> list = new ArrayList<String>();
 	    for (String[] array : arr) {
 	        list.addAll(Arrays.asList(array[0]));
 	    }
 	    if(list.stream().anyMatch(n -> n!=null && n.equals(Name))) return true;
-	    
 	    return false;
 	}
 	
 	public ArrayList<String> searchByCity(String Name) {
 		ArrayList<String> cityNames = new ArrayList<String>();
 		for (String[] array : arr) {
-			cityNames.addAll(Arrays.asList(array[3]));
+			if(Arrays.asList(array).stream().anyMatch(n -> n!=null && n.equals(Name))) {
+				cityNames.add(array[0]);
+			}
+				
 	    }
-		cityNames = (ArrayList<String>) cityNames.stream().filter(n -> n!=null && n.equals(Name)).collect(Collectors.toList());
 		return cityNames;
 	}
 	
 	public ArrayList<String> searchByState(String Name) {
 		ArrayList<String> stateNames = new ArrayList<String>();
 		for (String[] array : arr) {
-			stateNames.addAll(Arrays.asList(array[4]));
+			if(Arrays.asList(array).stream().anyMatch(n -> n!=null && n.equals(Name))) {
+				stateNames.add(array[0]);
+			}
 	    }
-		stateNames = (ArrayList<String>) stateNames.stream().filter(n -> n!=null && n.equals(Name)).collect(Collectors.toList());
 		return stateNames;
 	}
 
