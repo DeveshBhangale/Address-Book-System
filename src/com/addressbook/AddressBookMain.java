@@ -1,5 +1,15 @@
 package com.addressbook;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 
@@ -11,7 +21,7 @@ public class AddressBookMain {
 	public static Dictionary<String,ArrayList<ArrayList<String>>> personByCity = new Hashtable<String,ArrayList<ArrayList<String>>>();
 	public static Dictionary<String,ArrayList<ArrayList<String>>> personByState = new Hashtable<String,ArrayList<ArrayList<String>>>();
 	private static int count = 0;
-	public static void selectAddressBook(AddressBook addressBook) {
+	public static void selectAddressBook(AddressBook addressBook) throws IOException {
 		
 		int a;
 		while(true) {
@@ -22,7 +32,9 @@ public class AddressBookMain {
 						+ "4. Delete a Contact\n"
 						+ "5. search contact by city or state in multiple address book\n"
 						+ "6. get count of persons by city or state in multiple address book\n"
-						+ "7. sort the address book by name");
+						+ "7. sort the address book by name\n"
+						+ "8. To Write Data into file\n"
+						+ "9. To Read Data from the file");
 				while(!sc.hasNextInt()) {
 					System.out.println("Entered Input is not a number");
 					sc.next();
@@ -122,6 +134,11 @@ public class AddressBookMain {
 						else addressBook.sortArray(4);
 						break;
 				
+				case 8: writeData();
+						break;
+				case 9: readData();
+						break;
+				
 				default:System.out.println("Current Address Book exited"); 
 						return;
 				
@@ -129,6 +146,40 @@ public class AddressBookMain {
 		}
 	}
 	
+	private static void readData() throws IOException {
+		System.out.println("reading file...");
+		Path filePath = Paths.get("C:\\Users\\dbhanga\\Documents\\data.txt");
+		File file = new File(filePath.toString());
+		BufferedReader br = new BufferedReader(new FileReader(file.toString()));
+		String st;
+		  while ((st = br.readLine()) != null)
+		    System.out.println(st);
+		  
+	}
+
+	private static void writeData() throws IOException{
+		StringBuffer data = new StringBuffer("\n");
+		Enumeration<String> enu = dict.keys();
+		 while (enu.hasMoreElements()) {
+			 String x = enu.nextElement();
+			 AddressBook tempAddressBook = dict.get(x);
+			 data.append(tempAddressBook.writeData(x).toString());
+	        }
+		 Path filePath = Paths.get("C:\\Users\\dbhanga\\Documents\\data.txt");
+		 File file = new File(filePath.toString());
+			if(Files.exists(filePath))
+				file.delete();
+		 ObjectOutputStream outputStream;
+		try {
+			outputStream = new ObjectOutputStream(new FileOutputStream(file));
+			outputStream.writeObject(data.toString());
+			System.out.println("File Saved !!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		 
+	}
+
 	public static int cityOrStatePersonsCount(String Name,int choice) {
 		ArrayList<ArrayList<String>> personCount;
 		count = 0;
@@ -143,7 +194,6 @@ public class AddressBookMain {
 		return count;
 		
 	}
-	
 
 	private static void searchByCity(String cityName) {
 		ArrayList<ArrayList<String>> cityNames = new ArrayList<ArrayList<String>>();
@@ -169,7 +219,7 @@ public class AddressBookMain {
 	}
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		AddressBook addressBook = new AddressBook();
 		
 		String aBName = "first";
@@ -196,7 +246,6 @@ public class AddressBookMain {
 		        }
 				System.out.println("\nEnter the address book Name ");
 				aBName = sc.next();
-				
 				selectAddressBook(dict.get(aBName));
 			}
 			else {

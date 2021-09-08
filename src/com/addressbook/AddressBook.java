@@ -1,4 +1,6 @@
 package com.addressbook;
+import java.io.File;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.*;
 
@@ -75,14 +77,14 @@ public class AddressBook {
 	
 	public boolean checkDuplicacy(String Name) {
 		List<String> list = new ArrayList<String>();
-		Arrays.asList(arr).forEach(n -> { list.add(n[0]);});
+		Arrays.asList(arr).stream().forEach(n -> { list.add(n[0]);});
 	    if(list.stream().anyMatch(n -> n!=null && n.equals(Name))) return true;
 	    return false;
 	}
 	
 	public ArrayList<String> searchByCity(String Name) {
 		ArrayList<String> cityNames = new ArrayList<String>();
-		Arrays.asList(arr).forEach(n1 -> {
+		Arrays.asList(arr).stream().forEach(n1 -> {
 			if(n1[3]!=null && n1[3].equals(Name)) cityNames.add(n1[0]);
 		});
 		return cityNames;
@@ -90,7 +92,7 @@ public class AddressBook {
 	
 	public ArrayList<String> searchByState(String Name) {
 		ArrayList<String> stateNames = new ArrayList<String>();
-		Arrays.asList(arr).forEach(n1 -> {
+		Arrays.asList(arr).stream().forEach(n1 -> {
 			if(n1[4]!=null && n1[4].equals(Name)) stateNames.add(n1[0]);
 		});
 		return stateNames;
@@ -118,6 +120,27 @@ public class AddressBook {
 						+" Email="+i[7]);
 		}
 	}
+
+	
+	
+	public StringBuffer writeData(String addressBookName) {
+		StringBuffer str = new StringBuffer("Address Book "+ addressBookName +"\n");
+		for(int i=0;i<arr.length;i++) {
+			if(arr[i][0] != null) {
+				str.append("\nfirst Name "+ arr[i][0]);
+				str.append("\nLast Name "+ arr[i][1]);
+				str.append("\nAddress "+ arr[i][2]);
+				str.append("\nCity "+ arr[i][3]);
+				str.append("\nState "+ arr[i][4]);
+				str.append("\nZip Code "+ arr[i][5]);
+				str.append("\nPhone No "+ arr[i][6]);
+				str.append("\nEmail "+ arr[i][7]);
+			}
+		}
+		str.append("\n\n");
+		return str;
+	}
+
 	
 	}
 	
