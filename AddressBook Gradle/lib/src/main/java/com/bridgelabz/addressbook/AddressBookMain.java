@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import com.google.gson.stream.JsonWriter;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
@@ -39,8 +40,10 @@ public class AddressBookMain {
 						+ "7. sort the address book by name\n"
 						+ "8. To Write Data into file\n"
 						+ "9. To Read Data from the file\n"
-						+ "10. To Write data into csv\n"
-						+ "11. To read data into csv\\n");
+						+ "10. To Write data into csv file\n"
+						+ "11. To read data into csv file\n"
+						+ "12. To Write data into Json file\n"
+						+ "13. To read data into Json file\n");
 				while(!sc.hasNextInt()) {
 					System.out.println("Entered Input is not a number");
 					sc.next();
@@ -146,7 +149,11 @@ public class AddressBookMain {
 						break;
 				case 10: writeDataToCSV();break;
 				
-				case 11: readDataToCSV();break;
+				case 11: readDataFromCsvOrJson("data.csv");break;
+				
+				case 12: writeDatatoJson("data.json");break;
+				
+				case 13: readDataFromCsvOrJson("data.json");break;
 				
 				default:System.out.println("Current Address Book exited"); 
 						return;
@@ -155,9 +162,41 @@ public class AddressBookMain {
 		}
 	}
 	
-	private static void readDataToCSV() throws IOException {
+
+	private static void writeDatatoJson(String fileName) {
+		try(FileWriter fileWriter = new FileWriter(fileName);
+                JsonWriter jsonWriter = new JsonWriter(fileWriter)
+            ) {
+			Enumeration<String> enu = dict.keys();
+			 while (enu.hasMoreElements()) {
+				 String x = enu.nextElement();
+				 AddressBook tempAddressBook = dict.get(x);
+				 String arr[][] = tempAddressBook.writeDataToCSV(x) ;
+				 for(int i=0;i<arr.length;i++) {
+					 if(arr[i][0]!=null) {
+						jsonWriter.beginObject();
+						jsonWriter.name("AddressBook").value(arr[i][0]);
+						jsonWriter.name("firstName").value(arr[i][1]);
+						jsonWriter.name("lastName").value(arr[i][2]);
+						jsonWriter.name("Address").value(arr[i][3]);
+						jsonWriter.name("City").value(arr[i][4]);
+						jsonWriter.name("State").value(arr[i][5]);
+						jsonWriter.name("ZipCode").value(arr[i][6]);
+						jsonWriter.name("PhoneNo").value(arr[i][7]);
+						jsonWriter.name("Email").value(arr[i][8]);
+						jsonWriter.endObject();
+					 }
+				 }}
+			 System.out.println("Json File Created Successfully");
+			
+		} catch (IOException e) {
+                e.printStackTrace();
+            }
+	}
+
+	private static void readDataFromCsvOrJson(String fileName) throws IOException {
 		try {
-			Files.lines(new File("data.csv").toPath())
+			Files.lines(new File(fileName).toPath())
             .forEach(System.out::println);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
